@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <GL/glew.h>
 
+#include "logger.h"
+
 class ShadowMap{
 public:
     ShadowMap();

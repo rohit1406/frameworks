@@ -21,6 +21,7 @@
 #include "CommonValues.h"
 #include "Shader.hpp"
 #include "Mesh.hpp"
+#include "logger.h"
 
 class Skybox{
 public:

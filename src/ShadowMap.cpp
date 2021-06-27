@@ -41,10 +41,11 @@ bool ShadowMap::init(GLuint width, GLuint height){
     
     GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
     if(status != GL_FRAMEBUFFER_COMPLETE){
-        printf("Framebuffer Error: %s\n", status);
+        LOGGER("Framebuffer Error: "+ std::to_string(status));
         return false;
     }
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    LOGGER("ShadowMap Initialised.");
     return true;
 }
 

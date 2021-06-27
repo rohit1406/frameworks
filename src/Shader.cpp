@@ -23,7 +23,7 @@ void Shader::createFromString(const char *vertexCode, const char *fragmentCode){
 void Shader::compileShader(const char *vertexCode, const char *fragmentCode){
     shaderId = glCreateProgram();
     if(!shaderId){
-        printf("Failed to Create a Shader Program Object!\n");
+        LOGGER("Failed to Create a Shader Program Object!");
         return;
     }
     
@@ -36,7 +36,7 @@ void Shader::compileShader(const char *vertexCode, const char *fragmentCode){
 void Shader::compileShader(const char *vertexCode, const char* geometryCode, const char *fragmentCode){
     shaderId = glCreateProgram();
     if(!shaderId){
-        printf("Failed to Create a Shader Program Object!\n");
+        LOGGER("Failed to Create a Shader Program Object!");
         return;
     }
     
@@ -57,7 +57,7 @@ void Shader::validate(GLuint VAO){
     glGetProgramiv(shaderId, GL_VALIDATE_STATUS, &result);
     if(!result){
         glGetProgramInfoLog(shaderId, sizeof(eLog), NULL, eLog);
-        printf("Failed to validate the program: %s\n", eLog);
+        LOGGER("Failed to validate the program: %s\n"+ std::string(eLog));
         return;
     }
     
@@ -72,7 +72,7 @@ void Shader::compileProgram(){
     glGetProgramiv(shaderId, GL_LINK_STATUS, &result);
     if(!result){
         glGetProgramInfoLog(shaderId, sizeof(eLog), NULL, eLog);
-        printf("Failed to link the program: %s\n", eLog);
+        LOGGER("Failed to link the program: %s\n"+ std::string(eLog));
         return;
     }
     
@@ -173,6 +173,9 @@ void Shader::compileProgram(){
         snprintf(locBuff, sizeof(locBuff), "omniShadowMaps[%d].farPlane", i);
         uniformOmniShadowMap[i].farPlane = glGetUniformLocation(shaderId, locBuff);
     }
+    
+    // Font related
+    uniformTextColor = glGetUniformLocation(shaderId, "textColor");
 }
 
 void Shader::addShader(GLuint shaderProgram, const char *shaderCode, GLenum shaderType){
@@ -195,7 +198,7 @@ void Shader::addShader(GLuint shaderProgram, const char *shaderCode, GLenum shad
     glGetShaderiv(theShader, GL_COMPILE_STATUS, &result);
     if(!result){
         glGetShaderInfoLog(theShader, sizeof(eLog), NULL, eLog);
-        printf("Failed to Compile the shader: %s\n", eLog);
+        LOGGER("Failed to Compile the shader: "+ std::string(eLog));
         return;
     }
     
@@ -228,11 +231,16 @@ GLuint Shader::getViewLocation(){
     return uniformView;
 }
 
+GLuint Shader::getTextColorLocation(){
+    return uniformTextColor;
+}
+
 Shader::~Shader(){
     clearShader();
 }
 
 void Shader::createFromFiles(const char *vertexLocation, const char *fragmentLocation){
+    LOGGER("Creating shaders from "+std::string(vertexLocation)+", "+std::string(fragmentLocation));
     std::string vertexString = readFile(vertexLocation);
     std::string fragmentString = readFile(fragmentLocation);
     
@@ -247,7 +255,7 @@ std::string Shader::readFile(const char *fileLocation){
     std::ifstream fileStream(fileLocation, std::ios::in);
     
     if(!fileStream.is_open()){
-        printf("Failed to read file %s! File doesn't exists.");
+        LOGGER("Failed to read file "+std::string(fileLocation)+"! File doesn't exists.");
         return "";
     }
     
@@ -354,6 +362,8 @@ void Shader::setLightMatrices(std::vector<glm::mat4> lightMatrices){
 }
 
 void Shader::createFromFiles(const char* vertexLocation, const char* geometryLocation, const char* fragmentLocation){
+    LOGGER("Creating shaders from "+std::string(vertexLocation)+", "+std::string(geometryLocation)+", "+std::string(fragmentLocation));
+
     std::string vertexString = readFile(vertexLocation);
     std::string geometryString = readFile(geometryLocation);
     std::string fragmentString = readFile(fragmentLocation);

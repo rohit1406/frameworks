@@ -10,8 +10,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "Renderer.hpp"
-
-
+#include "logger.h"
 
 CustomWindow *window;
 Camera camera;
@@ -25,17 +24,18 @@ GLfloat lastTIme = 0.0f;
 
 
 int main(int argc, const char * argv[]) {
-    window = new CustomWindow(800, 600);  // 1366 * 768, 1280 * 1024, 1024 * 768
+    LOGGER("Logging Started");
+    window = new CustomWindow(WINDOW_WIDTH, WINDOW_HEIGHT); 
     
     window->intialize();
     renderer = Renderer(window);
     renderer.init();
     
-    camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f,
+    camera = Camera(glm::vec3(-2.0f, 4.0f, 6.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f,
                     5.0f,   // Sensitivity of movement
                     0.1f    // Sensitivity of mouse control
                     );
-    
+
     
     // Loop until window closed
     while(!window->getShouldClose()){
@@ -53,5 +53,7 @@ int main(int argc, const char * argv[]) {
         
         window->swapBuffers();
     }
+    LOGGER("Program Execution Finished");
+    LOGGER("-----------------End-------------------------------");
     return 0;
 }

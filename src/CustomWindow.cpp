@@ -16,6 +16,8 @@ CustomWindow::CustomWindow(){
     for(size_t i=0; i<1024; i++){
         keys[i] = 0;
     }
+    
+    LOGGER("Creating window of size "+std::to_string(width)+"*"+std::to_string(height));
 }
 
 CustomWindow::CustomWindow(GLint windowWidth, GLint windowHeight){
@@ -27,15 +29,18 @@ CustomWindow::CustomWindow(GLint windowWidth, GLint windowHeight){
     for(size_t i=0; i<1024; i++){
         keys[i] = 0;
     }
+    
+    LOGGER("Creating window of size "+std::to_string(width)+"*"+std::to_string(height));
 }
 
 int CustomWindow::intialize(){
     //Initialize GLFW
     if(!glfwInit()){
-        printf("Failed to initialize GLFW!");
+        LOGGER("Failed to initialise GLFW! Terminating GLFW.");
         glfwTerminate();
         return 1;
     }
+    LOGGER("GLFW initialised.");
     
     // Setup GLFW window properties
     // OpenGL Version: 3.3
@@ -45,13 +50,15 @@ int CustomWindow::intialize(){
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     // Allow forward compatibility
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    LOGGER("OpenGL properties set with OpenGL version 3.3");
     
     mainWindow = glfwCreateWindow(width, height, "OpenGL", NULL, NULL);
     if(!mainWindow){
-        printf("Failed to create GLFW Window!");
+        LOGGER("Failed to create GLFW Window! Terminating GLFW.");
         glfwTerminate();
         return 1;
     }
+    LOGGER("Main Window Created.");
     
     // Get buffer size information
     glfwGetFramebufferSize(mainWindow, &bufferWidth, &bufferHeight);
@@ -68,19 +75,21 @@ int CustomWindow::intialize(){
     glewExperimental = GL_TRUE;
     
     if(glewInit() != GLEW_OK){
-        printf("Failed to initialize GLEW!");
+        LOGGER("Failed to initialise GLEW!");
         glfwDestroyWindow(mainWindow);
         glfwTerminate();
         return 1;
     }
+    LOGGER("GLEW Initialised.");
     
     // Enable OpenGL features
     glEnable(GL_DEPTH_TEST);
-    
+    LOGGER("Depth test enabled.");
     // Setup Viewport size
     glViewport(0, 0, bufferWidth, bufferHeight);
-    
+    LOGGER("Viewport set to "+std::to_string(bufferWidth)+"*"+std::to_string(bufferHeight));
     glfwSetWindowUserPointer(mainWindow, this);
+    LOGGER("Window Initialisation Completed.");
     return 0;
 }
 

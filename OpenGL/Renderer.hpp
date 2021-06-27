@@ -25,8 +25,8 @@
 #include "Material.hpp"
 #include "Model.hpp"
 #include "Skybox.hpp"
-
-#include <freetype2/ft2build.h>
+#include "FontRenderer.hpp"
+#include "logger.h"
 
 class Renderer{
 public:
@@ -80,6 +80,9 @@ private:
     
     // Others
     GLfloat e45Angle = 0.0f;
+    
+    // Text Renderer
+    FontRenderer* fontRenderer;
     
     
     // Functions

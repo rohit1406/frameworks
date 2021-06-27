@@ -11,6 +11,9 @@
 		1866B124266BAA7E004D8F75 /* OmniShadowMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1866B122266BAA7E004D8F75 /* OmniShadowMap.cpp */; };
 		1866B12A266C0DE1004D8F75 /* Skybox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1866B128266C0DE1004D8F75 /* Skybox.cpp */; };
 		1866B138266C2026004D8F75 /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1866B136266C2026004D8F75 /* Renderer.cpp */; };
+		186939F626879135009510B3 /* FontRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 186939F426879135009510B3 /* FontRenderer.cpp */; };
+		186939FA2687BD38009510B3 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 186939F92687BD38009510B3 /* libfreetype.6.dylib */; };
+		186939FC2687BD55009510B3 /* libfreetype.6.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 186939FB2687BD55009510B3 /* libfreetype.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1877B621266387B10008F510 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1877B620266387B10008F510 /* main.cpp */; };
 		1877B62A266387C10008F510 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1877B629266387C10008F510 /* OpenGL.framework */; };
 		1877B62C266388190008F510 /* libGLEW.2.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1877B62B266388190008F510 /* libGLEW.2.2.0.dylib */; };
@@ -42,6 +45,7 @@
 				18E2CC8226698006008707F9 /* libassimp.5.0.0.dylib in CopyFiles */,
 				1877B6302663885C0008F510 /* libglfw.3.3.dylib in CopyFiles */,
 				1877B6312663885C0008F510 /* libGLEW.2.2.0.dylib in CopyFiles */,
+				186939FC2687BD55009510B3 /* libfreetype.6.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +76,13 @@
 		1866B135266C170C004D8F75 /* texture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = texture.jpg; sourceTree = "<group>"; };
 		1866B136266C2026004D8F75 /* Renderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer.cpp; sourceTree = "<group>"; };
 		1866B137266C2026004D8F75 /* Renderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Renderer.hpp; sourceTree = "<group>"; };
+		186939F426879135009510B3 /* FontRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FontRenderer.cpp; sourceTree = "<group>"; };
+		186939F526879135009510B3 /* FontRenderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FontRenderer.hpp; sourceTree = "<group>"; };
+		186939F72687AB9A009510B3 /* font.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = font.vert; sourceTree = "<group>"; };
+		186939F82687ABA5009510B3 /* font.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = font.frag; sourceTree = "<group>"; };
+		186939F92687BD38009510B3 /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = ../../../../../../usr/local/Cellar/freetype/2.10.4/lib/libfreetype.6.dylib; sourceTree = "<group>"; };
+		186939FB2687BD55009510B3 /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libfreetype.6.dylib; sourceTree = "<group>"; };
+		186939FD268884A6009510B3 /* logger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logger.h; sourceTree = "<group>"; };
 		1877B61D266387B10008F510 /* OpenGL */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OpenGL; sourceTree = BUILT_PRODUCTS_DIR; };
 		1877B620266387B10008F510 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1877B629266387C10008F510 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -122,15 +133,66 @@
 				1877B62C266388190008F510 /* libGLEW.2.2.0.dylib in Frameworks */,
 				1877B62E266388300008F510 /* libglfw.3.3.dylib in Frameworks */,
 				18E2CC8126697FFD008707F9 /* libassimp.5.0.0.dylib in Frameworks */,
+				186939FA2687BD38009510B3 /* libfreetype.6.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		186939FE2688A259009510B3 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				18E2CC5926642987008707F9 /* Mesh.cpp */,
+				18E2CC5B26642B3A008707F9 /* Shader.cpp */,
+				18E2CC622664331A008707F9 /* CustomWindow.cpp */,
+				18E2CC652665343F008707F9 /* Camera.cpp */,
+				18E2CC692667D717008707F9 /* Texture.cpp */,
+				18E2CC6F2668D0DF008707F9 /* Light.cpp */,
+				18E2CC7226690E1E008707F9 /* Material.cpp */,
+				18E2CC752669305A008707F9 /* DirectionalLight.cpp */,
+				18E2CC782669352D008707F9 /* PointLight.cpp */,
+				18E2CC7D266963D1008707F9 /* SpotLight.cpp */,
+				18E2CC83266AA98C008707F9 /* Model.cpp */,
+				1866B11D266B65E9004D8F75 /* ShadowMap.cpp */,
+				1866B122266BAA7E004D8F75 /* OmniShadowMap.cpp */,
+				1866B128266C0DE1004D8F75 /* Skybox.cpp */,
+				186939F426879135009510B3 /* FontRenderer.cpp */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		186939FF2688A25F009510B3 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				186939FD268884A6009510B3 /* logger.h */,
+				18E2CC682667D688008707F9 /* stb_image.h */,
+				18E2CC5826642987008707F9 /* Mesh.hpp */,
+				18E2CC5C26642B3A008707F9 /* Shader.hpp */,
+				18E2CC632664331A008707F9 /* CustomWindow.hpp */,
+				18E2CC662665343F008707F9 /* Camera.hpp */,
+				18E2CC6A2667D717008707F9 /* Texture.hpp */,
+				18E2CC702668D0DF008707F9 /* Light.hpp */,
+				18E2CC7326690E1E008707F9 /* Material.hpp */,
+				18E2CC762669305A008707F9 /* DirectionalLight.hpp */,
+				18E2CC792669352D008707F9 /* PointLight.hpp */,
+				18E2CC7B26695568008707F9 /* CommonValues.h */,
+				18E2CC7E266963D1008707F9 /* SpotLight.hpp */,
+				18E2CC84266AA98C008707F9 /* Model.hpp */,
+				1866B11E266B65E9004D8F75 /* ShadowMap.hpp */,
+				1866B123266BAA7E004D8F75 /* OmniShadowMap.hpp */,
+				1866B129266C0DE1004D8F75 /* Skybox.hpp */,
+				186939F526879135009510B3 /* FontRenderer.hpp */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
 		1877B614266387B00008F510 = {
 			isa = PBXGroup;
 			children = (
+				186939FF2688A25F009510B3 /* include */,
+				186939FE2688A259009510B3 /* src */,
+				186939FB2687BD55009510B3 /* libfreetype.6.dylib */,
 				18E2CC87266AB94E008707F9 /* Models */,
 				18E2CC6C2667DD10008707F9 /* Textures */,
 				18E2CC5E26642F56008707F9 /* Shaders */,
@@ -151,39 +213,9 @@
 		1877B61F266387B10008F510 /* OpenGL */ = {
 			isa = PBXGroup;
 			children = (
-				18E2CC682667D688008707F9 /* stb_image.h */,
-				18E2CC5926642987008707F9 /* Mesh.cpp */,
-				18E2CC5826642987008707F9 /* Mesh.hpp */,
-				1877B620266387B10008F510 /* main.cpp */,
-				18E2CC5B26642B3A008707F9 /* Shader.cpp */,
-				18E2CC5C26642B3A008707F9 /* Shader.hpp */,
-				18E2CC622664331A008707F9 /* CustomWindow.cpp */,
-				18E2CC632664331A008707F9 /* CustomWindow.hpp */,
-				18E2CC652665343F008707F9 /* Camera.cpp */,
-				18E2CC662665343F008707F9 /* Camera.hpp */,
-				18E2CC692667D717008707F9 /* Texture.cpp */,
-				18E2CC6A2667D717008707F9 /* Texture.hpp */,
-				18E2CC6F2668D0DF008707F9 /* Light.cpp */,
-				18E2CC702668D0DF008707F9 /* Light.hpp */,
-				18E2CC7226690E1E008707F9 /* Material.cpp */,
-				18E2CC7326690E1E008707F9 /* Material.hpp */,
-				18E2CC752669305A008707F9 /* DirectionalLight.cpp */,
-				18E2CC762669305A008707F9 /* DirectionalLight.hpp */,
-				18E2CC782669352D008707F9 /* PointLight.cpp */,
-				18E2CC792669352D008707F9 /* PointLight.hpp */,
-				18E2CC7B26695568008707F9 /* CommonValues.h */,
-				18E2CC7D266963D1008707F9 /* SpotLight.cpp */,
-				18E2CC7E266963D1008707F9 /* SpotLight.hpp */,
-				18E2CC83266AA98C008707F9 /* Model.cpp */,
-				18E2CC84266AA98C008707F9 /* Model.hpp */,
-				1866B11D266B65E9004D8F75 /* ShadowMap.cpp */,
-				1866B11E266B65E9004D8F75 /* ShadowMap.hpp */,
-				1866B122266BAA7E004D8F75 /* OmniShadowMap.cpp */,
-				1866B123266BAA7E004D8F75 /* OmniShadowMap.hpp */,
-				1866B128266C0DE1004D8F75 /* Skybox.cpp */,
-				1866B129266C0DE1004D8F75 /* Skybox.hpp */,
-				1866B136266C2026004D8F75 /* Renderer.cpp */,
 				1866B137266C2026004D8F75 /* Renderer.hpp */,
+				1877B620266387B10008F510 /* main.cpp */,
+				1866B136266C2026004D8F75 /* Renderer.cpp */,
 			);
 			path = OpenGL;
 			sourceTree = "<group>";
@@ -191,6 +223,7 @@
 		1877B628266387C10008F510 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				186939F92687BD38009510B3 /* libfreetype.6.dylib */,
 				18E2CC8026697FFD008707F9 /* libassimp.5.0.0.dylib */,
 				1877B62D266388300008F510 /* libglfw.3.3.dylib */,
 				1877B62B266388190008F510 /* libGLEW.2.2.0.dylib */,
@@ -211,6 +244,8 @@
 				1866B127266BB1E8004D8F75 /* OmniShadowMap.geom */,
 				1866B12B266C13C4004D8F75 /* skybox.vert */,
 				1866B12C266C13D1004D8F75 /* skybox.frag */,
+				186939F72687AB9A009510B3 /* font.vert */,
+				186939F82687ABA5009510B3 /* font.frag */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -301,6 +336,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				186939F626879135009510B3 /* FontRenderer.cpp in Sources */,
 				18E2CC712668D0DF008707F9 /* Light.cpp in Sources */,
 				18E2CC7A2669352D008707F9 /* PointLight.cpp in Sources */,
 				18E2CC7F266963D1008707F9 /* SpotLight.cpp in Sources */,
@@ -438,12 +474,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = /usr/local/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/usr/local/include/freetype2,
+					include,
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/glew/2.2.0_1/lib,
 					/usr/local/Cellar/glfw/3.3.4/lib,
 					/usr/local/lib,
+					/usr/local/Cellar/freetype/2.10.4/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -453,12 +494,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = /usr/local/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/usr/local/include/freetype2,
+					include,
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/glew/2.2.0_1/lib,
 					/usr/local/Cellar/glfw/3.3.4/lib,
 					/usr/local/lib,
+					/usr/local/Cellar/freetype/2.10.4/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

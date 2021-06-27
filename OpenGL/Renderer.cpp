@@ -25,12 +25,12 @@ void Renderer::init(){
     dirtTexture.loadTexture();
     planeTexture = Texture("Textures/plain.png");
     planeTexture.loadTextureA();
-    
+    LOGGER("Textures Loaded");
     mainLight = DirectionalLight(2048, 2048,
-                                 1.0f, 0.53f, 0.3f,          // Light Color
+                                 1.0f, 1.0f, 1.0f,          // Light Color
                                  0.1f,                      // Ambient Intensity
                                  0.9f,                      // Diffuse Intensity
-                                 -10.0f, -12.0f, 18.5f         // Light Direction
+                                 0.0f, -100.0f, 0.0f         // Light Direction
                         );
     
     
@@ -45,7 +45,7 @@ void Renderer::init(){
                                 0.2f,                       // linear
                                 0.1f                        // Exponent
                                 );
-    pointLightCount++;
+    //pointLightCount++;
     
     pointLights[1] = PointLight(
                                 1024, 1024,
@@ -58,7 +58,7 @@ void Renderer::init(){
                                 0.2f,                       // linear
                                 0.1f                        // Exponent
                                 );
-    pointLightCount++;
+    //pointLightCount++;
     
     spotLights[0] = SpotLight(
                               1024, 1024,
@@ -70,7 +70,7 @@ void Renderer::init(){
                              1.0f, 0.0f, 0.0f,
                              20.0f                          // Edge
                              );
-    spotLightCount++;
+    //spotLightCount++;
     
     spotLights[1] = SpotLight(
                               1024, 1024,
@@ -82,16 +82,17 @@ void Renderer::init(){
                              1.0f, 0.0f, 0.0f,
                              20.0f                          // Edge
                              );
-    spotLightCount++;
+    //spotLightCount++;
+    LOGGER("Lighting added.");
     
     // Load Skybox
     std::vector<std::string> skyboxFaces;
-    skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
-    skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
-    skyboxFaces.push_back("Textures/Skybox/cupertin-lake_up.tga");
-    skyboxFaces.push_back("Textures/Skybox/cupertin-lake_dn.tga");
-    skyboxFaces.push_back("Textures/Skybox/cupertin-lake_bk.tga");
-    skyboxFaces.push_back("Textures/Skybox/cupertin-lake_ft.tga");
+    skyboxFaces.push_back("Textures/Skybox/sh_rt.png");
+    skyboxFaces.push_back("Textures/Skybox/sh_lf.png");
+    skyboxFaces.push_back("Textures/Skybox/sh_up.png");
+    skyboxFaces.push_back("Textures/Skybox/sh_dn.png");
+    skyboxFaces.push_back("Textures/Skybox/sh_bk.png");
+    skyboxFaces.push_back("Textures/Skybox/sh_ft.png");
     skybox = Skybox(skyboxFaces);
     
     shinyMaterial = Material(4.0f, 156);
@@ -101,9 +102,13 @@ void Renderer::init(){
     modelE45AirCraft.loadModel("Models/E-45-Aircraft_obj.obj");
     modelAVMT300 = Model();
     modelAVMT300.loadModel("Models/AVMT300.obj");
-    
+    LOGGER("Models Created.");
     // Create Projection Matrix
     projection = glm::perspective(glm::radians(60.0f), (GLfloat) window->getBufferWidth() / (GLfloat) window->getBufferHeight(), 0.1f, 100.0f);
+    
+    // Font Renderer
+    fontRenderer = new FontRenderer();
+    fontRenderer->init();
 }
 
 void Renderer::render(Camera camera){
@@ -206,6 +211,8 @@ void Renderer::createObjects(){
     Mesh* obj3 = new Mesh();
     obj3->createMesh(floorVertices, floorIndices, 32, 6);
     meshList.push_back(obj3);
+    
+    LOGGER("Objection creation successful.");
 }
 
 void Renderer::createShaders(){
@@ -218,6 +225,7 @@ void Renderer::createShaders(){
     // Create Omni Directional Shadow Shaders
     omniShadowShader = Shader();
     omniShadowShader.createFromFiles("Shaders/OmniShadowMap.vert", "Shaders/OmniShadowMap.geom", "Shaders/OmniShadowMap.frag");
+    LOGGER("Shader creation successful.");
 }
 
 void Renderer::renderScene(){
@@ -312,7 +320,7 @@ void Renderer::renderPass(Camera camera,glm::mat4 projectionMatrix){
     glm::mat4 viewMatrix = camera.calculateViewMatrix();
     // Render Skybox
     skybox.draw(viewMatrix, projectionMatrix);
-    
+
     // Draw Rest of the things
     shaderList[0].useShader();
     
@@ -350,6 +358,8 @@ void Renderer::renderPass(Camera camera,glm::mat4 projectionMatrix){
     shaderList[0].validate(meshList[0]->VAO);
     
     renderScene();
+    
+    fontRenderer->render();
 }
 
 Renderer::~Renderer(){

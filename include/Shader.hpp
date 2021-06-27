@@ -20,6 +20,7 @@
 #include "PointLight.hpp"
 #include "CommonValues.h"
 #include "SpotLight.hpp"
+#include "logger.h"
 
 class Shader{
 public:
@@ -45,6 +46,7 @@ public:
     GLuint getEyePositionLocation();
     GLuint getOmniLightPosLocation();
     GLuint getFarPlaneLocation();
+    GLuint getTextColorLocation();
     
     void setDirectionalLight(DirectionalLight *dLight);
     void setPointLight(PointLight *pLight, unsigned int lightCount,unsigned int textureUnit, unsigned int offset);
@@ -106,6 +108,9 @@ private:
         GLuint shadowMap;
         GLuint farPlane;
     }uniformOmniShadowMap[MAX_POINT_LIGHTS + MAX_SPOT_LIGHTS];
+    
+    // Font related uniforms
+    GLuint uniformTextColor;
     
     void compileShader(const char* vertexCode, const char* fragmentCode);
     void compileShader(const char* vertexCode, const char* geometryCode, const char* fragmentCode);

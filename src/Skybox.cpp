@@ -79,6 +79,7 @@ Skybox::Skybox(std::vector<std::string> faceLocations){
     
     skyMesh = new Mesh();
     skyMesh->createMesh(skyboxVertices, skyboxIndices, 64, 36);
+    LOGGER("Skybox Initialised.");
 }
 
 void Skybox::draw(glm::mat4 viewMatrix, glm::mat4 projectionMatrix){
